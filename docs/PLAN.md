@@ -379,7 +379,7 @@ export const POST = apiHandler(async (req) => {
 | Optimistic concurrency | `updateMany where status = from` | race safe transitions | `SELECT FOR UPDATE` everywhere |
 
 ### docs/AI_WORKLOG.md (sections)
-1. Planning approach (Plan Mode, phases, CLAUDE.md pehle).
+1. Planning approach (phases, CLAUDE.md pehle).
 2. 3-5 key prompts (actual prompts paste karo).
 3. **Claude galat tha, min 2** (har ek: kya kaha, kaise pakda, fix). Possible real cases:
    - Worker mein `findFirst` + `update` (race condition) likha, `SKIP LOCKED` nahi.

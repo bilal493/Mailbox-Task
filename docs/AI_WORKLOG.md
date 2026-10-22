@@ -44,7 +44,7 @@ Review steps that were not mistakes but are worth listing as evidence the output
 
 ## 5. Time per phase
 
-These are **my estimates of wall-clock time in the session** (including model writing time and my reading), not stopwatch measurements. For reference, the file and log timestamps show only about 14 minutes of actual command execution (plan at 08:14, final zip at 08:28); the rest is the model generating roughly 2,500 lines of code and docs.
+These are **my estimates of wall-clock time in the session** (including model writing time and my reading), not stopwatch measurements. For reference, the file and log timestamps show only about 12 minutes of actual command execution (plan at 08:14, last code commit at 08:26); the rest is the model generating roughly 2,500 lines of code and docs.
 
 | Phase | Approx. time |
 |---|---|

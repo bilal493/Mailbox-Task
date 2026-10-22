@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+Project conventions for the AI assistant. This repo was built with **Claude Code (CLI)**, and these are the rules it followed and that any future AI session should keep following.
+
 Mailbox Order Manager: Next.js 14 (App Router) + TypeScript (strict) + PostgreSQL + Drizzle ORM.
 
 ## Commands

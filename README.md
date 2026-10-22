@@ -48,7 +48,14 @@ Tests need the Postgres from `docker compose up -d`. They use a separate `mailbo
 - **Worker:** `npm run worker` claims one `PENDING` order at a time with `FOR UPDATE SKIP LOCKED`, calls the mocked provider once per mailbox (2-4 s each, ~20% random failure), then marks the order `ACTIVE` (all mailboxes ok) or `FAILED`. Retrying only re-provisions mailboxes that are not yet active.
 - **Screens:** customer order list, create form, order detail (per-mailbox status + audit log, auto-refreshes); admin list with status/provider filters, pagination and a Retry button.
 
-Design patterns, where they live and the alternatives rejected: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Claude Code notes: [CLAUDE.md](CLAUDE.md), [docs/AI_WORKLOG.md](docs/AI_WORKLOG.md).
+Design patterns, where they live and the alternatives rejected: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+### Built with Claude Code
+
+This project was built with **Claude Code (CLI)**, working in the repo against a real PostgreSQL. Process evidence:
+- [docs/AI_WORKLOG.md](docs/AI_WORKLOG.md): planning approach, key prompts, 7 mistakes Claude made and how each was fixed, review evidence (mutation test, two-worker run, clean-clone check) and time per phase.
+- [docs/PLAN.md](docs/PLAN.md): the plan written before any code (one deliberate deviation: Drizzle instead of Prisma).
+- [CLAUDE.md](CLAUDE.md): the conventions and layer rules followed during the build.
 
 ### API
 

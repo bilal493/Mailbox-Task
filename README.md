@@ -2,7 +2,7 @@
 
 Internal tool for a company that sells pre-warmed Google and Microsoft mailboxes. Customers place orders; a background worker provisions the mailboxes through a provider abstraction; admins monitor, filter and retry.
 
-**Demo video:** _TODO: paste link here (2-3 min: customer creates an order, one success and one failure, admin sees the audit log and retries, tests run)_
+**Demo video:** _TODO – paste your 2-3 min recording link here before submitting_
 
 Stack: Next.js 14 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzle ORM · zod · Vitest
 
@@ -11,7 +11,7 @@ Stack: Next.js 14 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzl
 Prerequisites: **Node 20+** and **Docker**.
 
 ```bash
-git clone <repo-url> && cd mailbox-order-manager
+git clone https://github.com/bilal493/Mailbox-Task.git && cd Mailbox-Task
 cp .env.example .env
 
 docker compose up -d          # Postgres on :5432 (waits until healthy)

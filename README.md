@@ -2,7 +2,7 @@
 
 Internal tool for a company that sells pre-warmed Google and Microsoft mailboxes. Customers place orders; a background worker provisions the mailboxes through a provider abstraction; admins monitor, filter and retry.
 
-**Demo video:** _TODO – paste your 2-3 min recording link here before submitting_
+**Demo video:** https://www.loom.com/share/5af412f9543b4e54aa48ad54ad83fb39 
 
 Stack: Next.js 14 (App Router) · TypeScript (strict) · PostgreSQL 16 · Drizzle ORM · zod · Vitest
 

@@ -3,50 +3,58 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Matte palette (flat colours only, no gradients):
+   *   sage green    #9CAF88  -> --primary
+   *   concrete gray #A7A7A7  -> --concrete / --input
+   *   burnt amber   rgb(204, 85, 0) -> --warning / --ring
+   */
   :root {
-    --background: 225 25% 97%;
-    --foreground: 226 32% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 226 32% 12%;
-    --muted: 225 20% 94%;
-    --muted-foreground: 224 10% 40%;
-    --accent: 245 90% 96%;
-    --accent-foreground: 245 70% 40%;
-    --primary: 245 78% 58%;
-    --primary-foreground: 0 0% 100%;
-    --destructive: 0 72% 46%;
+    --background: 60 4% 92%;
+    --foreground: 0 0% 14%;
+    --card: 60 10% 97.5%;
+    --card-foreground: 0 0% 14%;
+    --muted: 0 0% 88%;
+    --muted-foreground: 0 0% 36%;
+    --accent: 89 20% 86%;
+    --accent-foreground: 95 28% 20%;
+    --primary: 89 20% 61%;
+    --primary-foreground: 100 25% 11%;
+    --destructive: 6 55% 40%;
     --destructive-foreground: 0 0% 100%;
-    --success: 152 62% 29%;
-    --warning: 32 92% 36%;
-    --info: 217 86% 46%;
-    --border: 225 18% 89%;
-    --input: 225 18% 85%;
-    --ring: 245 78% 58%;
-    --shadow: 226 40% 20%;
+    --success: 95 30% 30%;
+    --warning: 25 100% 40%;
+    --warning-ink: 24 100% 33%;
+    --concrete: 0 0% 65.5%;
+    --border: 0 0% 82%;
+    --input: 0 0% 65.5%;
+    --ring: 25 100% 40%;
+    --shadow: 0 0% 0%;
     --radius: 0.75rem;
     color-scheme: light;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --background: 228 30% 7%;
-      --foreground: 220 25% 94%;
-      --card: 228 26% 11%;
-      --card-foreground: 220 25% 94%;
-      --muted: 228 20% 16%;
-      --muted-foreground: 222 14% 66%;
-      --accent: 245 40% 20%;
-      --accent-foreground: 245 90% 85%;
-      --primary: 245 90% 72%;
-      --primary-foreground: 228 40% 8%;
-      --destructive: 0 90% 70%;
-      --destructive-foreground: 228 40% 8%;
-      --success: 152 60% 55%;
-      --warning: 40 95% 62%;
-      --info: 213 94% 70%;
-      --border: 228 18% 20%;
-      --input: 228 18% 24%;
-      --ring: 245 90% 72%;
+      --background: 0 0% 9%;
+      --foreground: 0 0% 92%;
+      --card: 0 0% 13%;
+      --card-foreground: 0 0% 92%;
+      --muted: 0 0% 18%;
+      --muted-foreground: 0 0% 66%;
+      --accent: 89 14% 22%;
+      --accent-foreground: 89 25% 82%;
+      --primary: 89 20% 61%;
+      --primary-foreground: 100 25% 9%;
+      --destructive: 6 65% 66%;
+      --destructive-foreground: 0 0% 9%;
+      --success: 89 28% 66%;
+      --warning: 25 90% 58%;
+      --warning-ink: 26 92% 64%;
+      --concrete: 0 0% 65.5%;
+      --border: 0 0% 22%;
+      --input: 0 0% 30%;
+      --ring: 25 90% 58%;
       --shadow: 0 0% 0%;
       color-scheme: dark;
     }
@@ -83,13 +91,5 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-  .bg-grid {
-    background-image:
-      linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse at top, black 20%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse at top, black 20%, transparent 70%);
   }
 }

@@ -47,7 +47,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const backHref = isAdmin ? "/admin/orders" : "/orders";
   const active = mailboxes.filter((m) => m.status === "ACTIVE").length;
   const inFlight = isInFlight(order.status);
-  const progressTone = order.status === "FAILED" ? "destructive" : order.status === "ACTIVE" ? "success" : "primary";
+  const progressTone = order.status === "FAILED" ? "destructive" : order.status === "ACTIVE" ? "success" : "active";
 
   return (
     <>

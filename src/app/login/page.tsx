@@ -11,7 +11,7 @@ export default async function LoginPage() {
     <div className="mx-auto mt-4 max-w-md sm:mt-12">
       <FadeIn className="mb-6 flex flex-col items-center text-center">
         <Float>
-          <span className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-violet-500 text-primary-foreground shadow-glow">
+          <span className="flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
             <Mail className="size-7" />
           </span>
         </Float>

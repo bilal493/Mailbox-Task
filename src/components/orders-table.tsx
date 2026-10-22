@@ -37,7 +37,7 @@ export function OrdersTable({ orders, admin }: { orders: OrderWithOwner[]; admin
                 <td className="whitespace-nowrap px-5 py-3.5">
                   <Link
                     href={`/orders/${o.id}`}
-                    className="inline-flex items-center gap-1 font-semibold text-foreground transition-colors group-hover:text-primary"
+                    className="inline-flex items-center gap-1 font-semibold text-foreground transition-colors group-hover:text-warning-ink"
                   >
                     {o.domain}
                     <ChevronRight className="size-4 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />

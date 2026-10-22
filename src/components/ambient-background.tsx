@@ -2,20 +2,24 @@
 
 import { motion } from "framer-motion";
 
-/** Soft drifting colour blobs behind the whole app. Purely decorative. */
+/** Large flat shapes drifting slowly behind the app. Solid colours only. Purely decorative. */
 export function AmbientBackground() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="bg-grid absolute inset-0 opacity-60" />
       <motion.div
-        className="absolute -left-24 -top-24 size-[22rem] rounded-full bg-primary/20 blur-3xl sm:size-[32rem]"
-        animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -left-20 -top-28 size-[20rem] rounded-full bg-primary/20 sm:size-[28rem]"
+        animate={{ x: [0, 40, 0], y: [0, 28, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -right-24 top-1/3 size-[18rem] rounded-full bg-violet-500/15 blur-3xl sm:size-[26rem]"
-        animate={{ x: [0, -40, 0], y: [0, -40, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-16 top-1/3 size-[14rem] rounded-[2.5rem] bg-concrete/20 sm:size-[20rem]"
+        animate={{ x: [0, -30, 0], y: [0, -36, 0], rotate: [12, 22, 12] }}
+        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute -bottom-10 left-1/4 size-24 rounded-full bg-warning/15 sm:size-36"
+        animate={{ y: [0, -24, 0], x: [0, 20, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>
   );

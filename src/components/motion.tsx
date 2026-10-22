@@ -113,23 +113,18 @@ export function ProgressBar({
   value,
   max,
   active = false,
-  tone = "primary",
+  tone = "active",
   className,
 }: {
   value: number;
   max: number;
-  /** Shows a moving shimmer while work is still in progress. */
+  /** Pulses softly while work is still in progress. */
   active?: boolean;
-  tone?: "primary" | "success" | "destructive";
+  tone?: "active" | "success" | "destructive";
   className?: string;
 }) {
   const pct = max <= 0 ? 0 : Math.min(100, Math.max(0, (value / max) * 100));
-  const fill =
-    tone === "success"
-      ? "bg-success"
-      : tone === "destructive"
-        ? "bg-destructive"
-        : "bg-gradient-to-r from-primary to-violet-500";
+  const fill = tone === "success" ? "bg-primary" : tone === "destructive" ? "bg-destructive" : "bg-warning";
   return (
     <div
       className={cn("h-2 w-full overflow-hidden rounded-full bg-muted", className)}
@@ -139,13 +134,11 @@ export function ProgressBar({
       aria-valuenow={value}
     >
       <motion.div
-        className={cn("relative h-full overflow-hidden rounded-full", fill)}
+        className={cn("h-full rounded-full", fill, active && "animate-pulse")}
         initial={{ width: 0 }}
         animate={{ width: `${pct}%` }}
         transition={{ type: "spring", stiffness: 90, damping: 20 }}
-      >
-        {active && <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent" />}
-      </motion.div>
+      />
     </div>
   );
 }

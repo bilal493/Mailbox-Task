@@ -54,14 +54,14 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="sticky top-0 z-40 border-b bg-background/75 backdrop-blur-xl"
+      className="sticky top-0 z-40 border-b bg-background"
     >
       <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-3 px-4 sm:h-16 sm:gap-6 sm:px-6">
         <Link href="/" className="group flex items-center gap-2.5 font-semibold tracking-tight">
           <motion.span
             whileHover={{ rotate: -8, scale: 1.08 }}
             whileTap={{ scale: 0.94 }}
-            className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-violet-500 text-primary-foreground shadow-glow"
+            className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground"
           >
             <Mail className="size-4" />
           </motion.span>
@@ -99,7 +99,7 @@ export function SiteHeader({ user }: { user: HeaderUser | null }) {
 
             <div className="ml-auto hidden items-center gap-3 md:flex">
               <div className="flex items-center gap-2.5 text-sm">
-                <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/80 to-violet-500/80 text-xs font-bold uppercase text-primary-foreground">
+                <span className="flex size-8 items-center justify-center rounded-full bg-primary text-xs font-bold uppercase text-primary-foreground">
                   {user.email.slice(0, 1)}
                 </span>
                 <div className="leading-tight">

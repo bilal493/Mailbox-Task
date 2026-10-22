@@ -12,9 +12,10 @@ interface StatusStyle {
 }
 
 // Full class names are written out so Tailwind can see them at build time.
+// Concrete gray = waiting, burnt amber = in progress, sage green = done.
 export const STATUS_STYLES: Record<Status, StatusStyle> = {
-  PENDING: { label: "Pending", badge: "bg-warning/10 text-warning ring-warning/25", dot: "bg-warning" },
-  PROVISIONING: { label: "Provisioning", badge: "bg-info/10 text-info ring-info/25", dot: "bg-info" },
-  ACTIVE: { label: "Active", badge: "bg-success/10 text-success ring-success/25", dot: "bg-success" },
+  PENDING: { label: "Pending", badge: "bg-concrete/20 text-foreground/75 ring-concrete/60", dot: "bg-concrete" },
+  PROVISIONING: { label: "Provisioning", badge: "bg-warning/10 text-warning-ink ring-warning/30", dot: "bg-warning" },
+  ACTIVE: { label: "Active", badge: "bg-primary/20 text-success ring-primary/50", dot: "bg-primary" },
   FAILED: { label: "Failed", badge: "bg-destructive/10 text-destructive ring-destructive/25", dot: "bg-destructive" },
 };

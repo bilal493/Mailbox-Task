@@ -1,0 +1,48 @@
+name: CI
+
+# Runs on every push, on any branch.
+on:
+  push:
+    branches: ["**"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: mailbox
+          POSTGRES_PASSWORD: mailbox
+          POSTGRES_DB: mailbox_orders
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U mailbox -d mailbox_orders"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://mailbox:mailbox@localhost:5432/mailbox_orders
+      # The test setup creates this database and applies the migrations by itself.
+      DATABASE_URL_TEST: postgres://mailbox:mailbox@localhost:5432/mailbox_orders_test
+      SESSION_SECRET: ci-only-secret-ci-only-secret
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test

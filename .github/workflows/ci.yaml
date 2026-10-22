@@ -9,8 +9,12 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    name: Tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -36,13 +40,118 @@ jobs:
       SESSION_SECRET: ci-only-secret-ci-only-secret
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm test
+      - name: Run tests
+        run: npm test -- --reporter=verbose --reporter=json --outputFile.json=test-results.json
+
+      # Always runs, so the summary is also shown when tests fail.
+      - name: Publish test summary
+        if: always()
+        run: |
+          node --input-type=module - test-results.json <<'NODE_SCRIPT'
+          // Turns the Vitest JSON report into a clean Markdown summary on the GitHub Actions run page.
+          import { appendFileSync, existsSync, readFileSync } from "node:fs";
+
+          const reportPath = process.argv[2] ?? "test-results.json";
+          const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+          const out = [];
+          const line = (s = "") => out.push(s);
+
+          const stripAnsi = (s) => s.replace(/\u001b\[[0-9;]*m/g, "");
+          const seconds = (ms) => `${(ms / 1000).toFixed(2)}s`;
+          const esc = (s) => s.replace(/\|/g, "\\|");
+
+          const env = process.env;
+          const sha = (env.GITHUB_SHA ?? "").slice(0, 7);
+
+          line("# Test report");
+          line();
+          line("| | |");
+          line("|---|---|");
+          line(`| Repository | ${env.GITHUB_REPOSITORY ?? "local"} |`);
+          line(`| Branch | \`${env.GITHUB_REF_NAME ?? "local"}\` |`);
+          line(`| Commit | \`${sha || "n/a"}\` |`);
+          line(`| Triggered by | ${env.GITHUB_ACTOR ?? "n/a"} |`);
+          line(`| Node.js | ${process.version} |`);
+          line();
+
+          if (!existsSync(reportPath)) {
+            line("## Result: NO REPORT");
+            line();
+            line("The test runner did not produce a report. It most likely stopped before running any test,");
+            line("for example because of a database connection or setup error. Check the log of the **Run tests** step.");
+          } else {
+            const r = JSON.parse(readFileSync(reportPath, "utf8"));
+            const files = [...r.testResults].sort((a, b) => a.name.localeCompare(b.name));
+            const total = r.numTotalTests;
+            const passed = r.numPassedTests;
+            const failed = r.numFailedTests;
+            const skipped = r.numPendingTests + (r.numTodoTests ?? 0);
+            const start = r.startTime;
+            const end = Math.max(...files.map((f) => f.endTime));
+            const duration = files.length ? end - start : 0;
+            const ok = r.success && failed === 0;
+
+            line(`## Result: ${ok ? "PASSED" : "FAILED"}`);
+            line();
+            line("| Total | Passed | Failed | Skipped | Test files | Duration |");
+            line("|---:|---:|---:|---:|---:|---:|");
+            line(`| ${total} | ${passed} | ${failed} | ${skipped} | ${files.length} | ${seconds(duration)} |`);
+            line();
+
+            line("## Results by file");
+            line();
+            line("| File | Tests | Passed | Failed | Duration | Status |");
+            line("|---|---:|---:|---:|---:|---|");
+            for (const f of files) {
+              const rel = f.name.includes("/tests/") ? "tests/" + f.name.split("/tests/").pop() : f.name;
+              const a = f.assertionResults;
+              const p = a.filter((t) => t.status === "passed").length;
+              const x = a.filter((t) => t.status === "failed").length;
+              line(`| \`${esc(rel)}\` | ${a.length} | ${p} | ${x} | ${seconds(f.endTime - f.startTime)} | ${x === 0 && f.status === "passed" ? "Passed" : "Failed"} |`);
+            }
+            line();
+
+            const failures = files.flatMap((f) => f.assertionResults.filter((t) => t.status === "failed").map((t) => ({ file: f.name, t })));
+            if (failures.length) {
+              line("## Failures");
+              line();
+              for (const { file, t } of failures) {
+                const rel = file.includes("/tests/") ? "tests/" + file.split("/tests/").pop() : file;
+                line(`### ${t.fullName}`);
+                line();
+                line(`File: \`${rel}\``);
+                line();
+                line("```");
+                line(stripAnsi(t.failureMessages.join("\n\n")).split("\n").slice(0, 25).join("\n"));
+                line("```");
+                line();
+              }
+            } else {
+              line("All tests passed.");
+            }
+          }
+
+          const text = out.join("\n") + "\n";
+          if (summaryPath) appendFileSync(summaryPath, text);
+          else process.stdout.write(text);
+          NODE_SCRIPT
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.json
+          if-no-files-found: ignore

@@ -1,4 +1,7 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Props {
   basePath: string;
@@ -19,20 +22,30 @@ export function Pagination({ basePath, page, totalPages, total, pageSize, params
   };
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, total);
+  const prevDisabled = page <= 1;
+  const nextDisabled = page >= totalPages;
+  const linkClass = (disabled: boolean) =>
+    cn(buttonVariants({ variant: "outline", size: "sm" }), disabled && "pointer-events-none opacity-45");
+
   return (
-    <nav className="pager" aria-label="Pagination">
-      <span>
+    <nav
+      className="flex flex-col items-center justify-between gap-3 border-t px-4 py-3 text-sm text-muted-foreground sm:flex-row sm:px-5"
+      aria-label="Pagination"
+    >
+      <span className="tabular-nums">
         {from}–{to} of {total}
       </span>
-      <span className="pager-links">
-        <Link className={`btn btn-sm ${page <= 1 ? "disabled" : ""}`} href={href(page - 1)} aria-disabled={page <= 1}>
+      <span className="flex items-center gap-3">
+        <Link className={linkClass(prevDisabled)} href={href(page - 1)} aria-disabled={prevDisabled} tabIndex={prevDisabled ? -1 : undefined}>
+          <ChevronLeft />
           Previous
         </Link>
-        <span className="muted" style={{ alignSelf: "center" }}>
+        <span className="tabular-nums">
           Page {page} of {totalPages}
         </span>
-        <Link className={`btn btn-sm ${page >= totalPages ? "disabled" : ""}`} href={href(page + 1)} aria-disabled={page >= totalPages}>
+        <Link className={linkClass(nextDisabled)} href={href(page + 1)} aria-disabled={nextDisabled} tabIndex={nextDisabled ? -1 : undefined}>
           Next
+          <ChevronRight />
         </Link>
       </span>
     </nav>

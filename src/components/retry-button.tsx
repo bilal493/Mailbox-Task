@@ -1,7 +1,10 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import { RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function RetryButton({ orderId }: { orderId: string }) {
   const router = useRouter();
@@ -27,11 +30,24 @@ export function RetryButton({ orderId }: { orderId: string }) {
   }
 
   return (
-    <span>
-      <button className="btn btn-sm" onClick={retry} disabled={busy}>
+    <span className="inline-flex flex-wrap items-center gap-2">
+      <Button variant="outline" size="sm" onClick={retry} disabled={busy}>
+        <RotateCw className={busy ? "animate-spin" : undefined} />
         {busy ? "Retrying…" : "Retry"}
-      </button>
-      {error && <span className="error-text" role="alert"> {error}</span>}
+      </Button>
+      <AnimatePresence>
+        {error && (
+          <motion.span
+            initial={{ opacity: 0, x: -6 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0 }}
+            className="text-xs text-destructive"
+            role="alert"
+          >
+            {error}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </span>
   );
 }
